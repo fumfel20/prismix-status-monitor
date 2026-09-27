@@ -38,17 +38,17 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash && \
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Set working directory
-WORKDIR /var/www/symfony
+WORKDIR /var/www/prismix-status-monitor
 
 # Match Linux UID/GID (1000:1000) to prevent root permission conflicts on host
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-RUN groupadd -g ${GROUP_ID} symfony && \
-    useradd -u ${USER_ID} -g symfony -m -s /bin/bash symfony && \
-    chown -R symfony:symfony /var/www/symfony
+RUN groupadd -g ${GROUP_ID} prismix && \
+    useradd -u ${USER_ID} -g prismix -m -s /bin/bash prismix && \
+    chown -R prismix:prismix /var/www/prismix-status-monitor
 
-USER symfony
+USER prismix
 
 EXPOSE 9000
 CMD ["php-fpm"]

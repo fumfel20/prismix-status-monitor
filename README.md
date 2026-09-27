@@ -32,9 +32,9 @@ To run this application in Docker containers, ensure you have installed:
 ## 🐳 Docker Architecture
 
 The Docker environment (`docker-compose.yml` + `Dockerfile`) consists of the following services:
-- **`app` (`symfony_app`):** PHP 8.3 FPM runtime with required extensions (`pdo_mysql`, `intl`, `opcache`, `zip`, `apcu`), Composer 2, Node.js 20, and Symfony CLI.
-- **`nginx` (`symfony_nginx`):** Nginx Alpine web server mapping host port `8080` to container port `80`, routing PHP requests to the `app` container (port 9000).
-- **`db` (`symfony_db`):** MySQL 8.0 database service (available on port `3306`).
+- **`app` (`prismix_app`):** PHP 8.3 FPM runtime with required extensions (`pdo_mysql`, `intl`, `opcache`, `zip`, `apcu`), Composer 2, Node.js 20, and Symfony CLI.
+- **`nginx` (`prismix_nginx`):** Nginx Alpine web server mapping host port `8080` to container port `80`, routing PHP requests to the `app` container (port 9000).
+- **`db` (`prismix_db`):** MySQL 8.0 database service (available on port `3306`).
 
 ---
 
@@ -52,7 +52,7 @@ Build the container images and launch the services in detached mode:
 ```bash
 docker compose up -d --build
 ```
-> This starts `symfony_app`, `symfony_nginx`, and `symfony_db` containers.
+> This starts `prismix_app`, `prismix_nginx`, and `prismix_db` containers.
 
 ### Step 3: Install Dependencies (Composer & npm)
 Install PHP packages and frontend assets inside the application container:
