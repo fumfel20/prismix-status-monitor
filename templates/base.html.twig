@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Application{% endblock %} - Symfony</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚡</text></svg>">
+
+        {# Bootstrap 5.3 & Bootstrap Icons installed locally via npm #}
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/font/bootstrap-icons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/tablefilter/dist/tablefilter/style/tablefilter.css') }}">
+
+        <style>
+            /* Global styling for tables and TableFilter with Bootstrap */
+            .tf_filter {
+                width: 100% !important;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+                border: 1px solid #dee2e6;
+                border-radius: 0.375rem;
+                outline: none;
+                box-sizing: border-box;
+            }
+            .tf_filter:focus {
+                border-color: #86b7fe;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+            .inf {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 0.75rem;
+                font-size: 0.875rem;
+                color: #6c757d;
+            }
+            .btn_reset input, .btn_reset button {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.875rem;
+                border-radius: 0.375rem;
+                border: 1px solid #ced4da;
+                background: #fff;
+                cursor: pointer;
+            }
+            .btn_reset input:hover, .btn_reset button:hover {
+                background: #f8f9fa;
+            }
+        </style>
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        {# Bootstrap JS Bundle #}
+        <script defer src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+        {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphp_hot_reload %}
+            <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+            <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+            <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body class="d-flex flex-column min-vh-100 bg-light">
+        {# Navigation Bar #}
+        {% block navbar %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="/">
+                        <i class="bi bi-box-seam me-1"></i> Prismix Status Monitor
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="mainNavbar">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/statuses">Statuses</a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                            {% if app.user %}
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle me-1"></i>
+                                        {{ app.user.userIdentifier }}
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-light btn-sm px-3" href="#">Login</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endblock %}
+
+        {# Flash Messages #}
+        {% block flashes %}
+            <div class="container mt-3">
+                {% for label, messages in app.flashes %}
+                    {% set alert_type = label == 'error' ? 'danger' : (label == 'notice' ? 'info' : label) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ alert_type }} alert-dismissible fade show shadow-sm" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+        {# Main Content #}
+        <main class="flex-shrink-0 flex-grow-1">
+            {% block main %}
+                <div class="container my-4">
+                    {% block body %}{% endblock %}
+                </div>
+            {% endblock %}
+        </main>
+
+        {# Footer #}
+        {% block footer %}
+            <footer class="footer mt-auto py-3 bg-white border-top text-muted">
+                <div class="container text-center">
+                    <small>&copy; {{ "now"|date("Y") }} My Application. All rights reserved.</small>
+                </div>
+            </footer>
+        {% endblock %}
+    </body>
+</html>

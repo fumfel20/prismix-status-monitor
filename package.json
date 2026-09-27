@@ -1,0 +1,13 @@
+{
+  "name": "symfony",
+  "version": "1.0.0",
+  "description": "Symfony Application with npm dependencies",
+  "scripts": {
+    "postinstall": "ln -sfn ../node_modules public/vendor"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "tablefilter": "^0.7.2"
+  }
+}
