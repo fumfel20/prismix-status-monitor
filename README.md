@@ -44,7 +44,7 @@ The Docker environment (`docker-compose.yml` + `Dockerfile`) consists of the fol
 Clone the repository to your local machine and navigate into the project directory:
 ```bash
 git clone <repository-url>
-cd symfony
+cd prismix-status-monitor
 ```
 
 ### Step 2: Build and Start Docker Containers
